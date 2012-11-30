@@ -174,7 +174,7 @@ else (do
     main)    
 }}
 
-這樣可以明顯看到整個do block可以看作一個I/O action，只是比較醜。但總之，在do block裡面，我們依序呼叫了``getLine``以及``reverseWords``，在那之後，我們遞迴呼叫了``main``。由於main也是一個I/O action，所以這不會造成任何問題。呼叫``main``也就代表我們回到程式的起點。
+這樣可以明顯看到整個do block可以看作一個I/O action，只是比較醜。但總之，在do block裡面，我們以``getLine``的結果作為參數呼叫了``reverseWordsgetLine``並且印在終端上，在那之後，我們遞迴呼叫了``main``。由於main也是一個I/O action，所以這不會造成任何問題。呼叫``main``也就代表我們回到程式的起點。
 
 那假如``null line``的結果是true呢?也就是說then的區塊被執行。我們看一下區塊裡面有``then return ()``。如果你是從C, Java或Python過來的，你可能會想``return``不過是作一樣的事情便跳過這一段。但很重要的: ``return``在Hakell裡面的意義跟其他語言的``return``完全不同！他們有相同的樣貌，造成了許多人搞錯，但確實他們是不一樣的。在命令式語言中，``return``通常結束method或subroutine的執行，並且回傳某個值給呼叫者。在Haskell中，他的意義則是利用某個pure value造出I/O action。用之前盒子的比喻來說，就是將一個value裝進箱子裡面。產生出的I/O action並沒有作任何事，只不過將value包起來而已。所以在I/O的情況下來說，``return "haha"``的型態是``IO String``。將pure value包成I/O action有什麼實質意義呢？為什麼要弄成``IO``包起來的值？這是因為我們一定要在else中擺上某些I/O action，所以我們才用``return ()``做了一個沒作什麼事情的I/O action。
 
