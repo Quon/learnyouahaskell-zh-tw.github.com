@@ -122,9 +122,9 @@ ghci> fmap (show . (*3)) (*100) 1
 
 到這邊為止盒子的比喻還適用嗎？如果你硬是要解釋的話還是解釋得通。當我們將``fmap (+3)`` map over ``Just 3``的時候，對於``Maybe``我們很容易把他想成是裝了值的盒子，我們只是對盒子裡面的值``(+3)``。但對於``fmap (*3) (+100)``呢？你可以把``(+100)``想成是一個裝了值的盒子。有點像把I/O action想成長了腳的盒子一樣。對``(+100)``使用``fmap (*3)``會產生另一個表現得像``(+100)``的function。只是在算出值之前，會再多計算``(*3)``。這樣我們可以看出來``fmap``表現得就像``.``一樣。
 
-``fmap``等同於function composition這件事對我們來說並不是很實用，但至少是一個有趣的觀點。這也讓我們打開視野，看到盒子的比喻不是那麼恰當，functors其實比較像computation。function被map over到一個computation會產生經由那個function映射過後的computation。
-
 [$/img/lifter.png]
+
+``fmap``等同於function composition這件事對我們來說並不是很實用，但至少是一個有趣的觀點。這也讓我們打開視野，看到盒子的比喻不是那麼恰當，functors其實比較像computation。function被map over到一個computation會產生經由那個function映射過後的computation。
 
 在我們繼續看``fmap``該遵守的規則之前，我們再看一次``fmap``的型態，他是``fmap :: (a -> b) -> f a -> f b``。很明顯我們是在討論Functor，所以為了簡潔，我們就不寫``(Functor f) =>``的部份。當我們在學curry的時候，我們說過Haskell的function實際上只接受一個參數。一個型態是``a -> b -> c``的函數實際上是接受``a``然後回傳``b -> c``，而``b -> c``實際上接受一個``b``然後回傳一個``c``。如果我們用比較少的參數呼叫一個函數，他就會回傳一個函數需要接受剩下的參數。所以``a -> b -> c``可以寫成``a -> (b -> c)``。這樣curry可以明顯一些。
 
